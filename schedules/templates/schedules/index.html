@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h2 class="text-center">리뷰 목록</h2>
+    <a href="{% url 'schedules:create' %}"><button class="btn btn-primary float-right my-2">글 쓰기</button></a>
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">제목</th>
+          <th scope="col">작성자</th>
+        </tr>
+      </thead>
+      <tbody>
+       {% for schedule in schedules %}
+        <tr>
+          <th scope="row">{{ schedule.pk }}</th>
+          <td><a href="{% url 'schedules:detail' schedule.pk %}">{{ schedule.title }}</a></td>
+          <td><a href="">{{ schedule.user.username }}</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}
