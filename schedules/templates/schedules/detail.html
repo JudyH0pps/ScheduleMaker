@@ -3,18 +3,44 @@
 
 {% block body %}
 
-<h1>{{ schedule.title }}</h1>
-<h2>기간 : {{schedule.start_date}} ~ {{schedule.end_date}} </h2>
+<h1 class="text-center">{{ schedule.title }}</h1>
+<h2 class="text-center">{{schedule.start_date}} ~ {{schedule.end_date}}</h2>
 
-<form action="{% url 'schedules:comment_create' schedule.pk %}" method="POST">
+<form action="{% url 'schedules:comment_create' schedule.pk %}" method="POST" id="scheduleForm">
     {% csrf_token %}
     {% bootstrap_form form %}
+    <div class="dateForms">
+
+    </div>
     <input type="submit">
 </form>
 
 {% for comment in schedule.comment_set.all %}
-    <p>{{ comment.nickname }}</p>
-    <p>{{ comment.date }}</p>
+    <p>{{ comment.nickname }} : {{ comment.date }}</p>
+    <hr>
 {% endfor %}
+
+<script>
+
+    const dateInputBtn = document.createElement('button')
+    dateInputBtn.innerText = '일정 추가'
+    const dateForms = document.querySelector('.dateForms')
+    dateForms.appendChild(dateInputBtn)
+
+    dateInputBtn.addEventListener('click', function(event){
+        const fieldDiv = document.createElement('div')
+        const dateInputField = document.createElement('input')
+        const fieldDltBtn = document.createElement('button')
+        fieldDltBtn.innerText = '폼 삭제'
+        dateInputField.setAttribute('class','d-inline form-control w-75 mr-0')
+        dateInputField.setAttribute('type','text')
+        dateInputField.setAttribute('placeholder','Date')
+        fieldDiv.appendChild(dateInputField)
+        fieldDiv.appendChild(fieldDltBtn)
+        dateForms.appendChild(fieldDiv)
+        event.preventDefault()
+    })
+
+</script>
 
 {% endblock %}
